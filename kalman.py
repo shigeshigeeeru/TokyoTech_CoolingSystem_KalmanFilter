@@ -29,7 +29,7 @@ P_post=[1.]
 A=1.0
 b=1.0
 c=1.0
-sigma_w=np.sqrt(100.0) #depends on adc flucuation
+#sigma_w=np.sqrt(100.0) #depends on adc flucuation
 sigma_v=1.0 #depends on system noise
 #y_before=0
 #y_after=0
@@ -41,7 +41,7 @@ T_guess=0.
 total=0.
 ave=0.
 sum2jou=0.
-n=30
+n=10
 STEP=100
 
 dist = \
@@ -52,16 +52,16 @@ np.random.normal(
 )#random number using gaussian pdf.
 
 f= open("meas_30.txt")
-for i in range(100):
+for i in range(STEP):
     contents = f.readline()
     y.append(float(contents))
     t.append(i)
     total = total + y[i]
 f.close()
-ave = total/100.
-for i in range(100):
+ave = total/float(STEP)
+for i in range(STEP):
     sum2jou = sum2jou + (y[i]-ave)**2
-sigma = np.sqrt(sum2jou/(100.-1.))
+sigma = np.sqrt(sum2jou/(float(STEP) - 1.))
 #print('whole')
 #print(sigma)
 sigma_w = sigma
@@ -69,7 +69,7 @@ x_post[0] = y[0]
 #y.pop(0)
 #with open(filename , 'a') as file_object:	
 with open(filename , 'w') as file_object:#new file
-    for i in range(99):
+    for i in range(STEP-1):
         ###PREPARE DATA###
         #t.append(i+1)
         #y.append(y[i]+dist[i])
